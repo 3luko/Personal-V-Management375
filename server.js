@@ -1,18 +1,36 @@
-const express = require('express');
-const connectDB = require('./config/db');
+import express from "express";
+import dotenv from "dotenv";
 
-require('dotenv').config();
+import connectDB from "./config/db.js";
+
+import { router as userRoutes } from "./routes/users.js";
+import { router as recordRoutes } from "./routes/records.js";
+import { router as vehicleRoutes } from "./routes/vehicles.js";
+
+dotenv.config();
 
 const app = express();
+const PORT = process.env.PORT || 3000;
 
-// 1. Connect to the Database
-connectDB();
-
-// 2. Middleware for JSON [cite: 11]
+// Middleware
 app.use(express.json());
 
-// 3. Define Routes (Example) [cite: 72]
-app.use('/api/vehicles', require('./routes/vehicles'));
+// Routes
+app.use("/api/users", userRoutes);
+app.use("/api/records", recordRoutes);
+app.use("/api/vehicles", vehicleRoutes);
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// Start server
+async function startServer() {
+    try {
+        await connectDB();
+
+        app.listen(PORT, () => {
+            console.log(`Server running on port ${PORT}`);
+        });
+    } catch (err) {
+        console.error("Server failed to start:", err.message);
+    }
+}
+
+startServer();
