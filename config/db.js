@@ -1,15 +1,16 @@
-const mongoose = require('mongoose');
-require('dotenv').config(); // Loads variables from .env into process.env
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const connectDB = async () => {
   try {
-    // Attempt to connect using the URI from .env file [cite: 74]
     const conn = await mongoose.connect(process.env.MONGO_URI);
 
     console.log(`MongoDB Connected: ${conn.connection.host}`);
   } catch (error) {
     console.error(`Error: ${error.message}`);
-    process.exit(1); // Exit process with failure 
+    process.exit(1);
   }
 };
 
