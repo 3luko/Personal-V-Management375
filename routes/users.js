@@ -17,7 +17,7 @@ const logRequest = function(req, res, next){
 router.use(logRequest);
 
 
-//  GET ALL USERS (with filtering + pagination)
+// 1. GET ALL USERS (with filtering + pagination)
 router.get("/", async (req, res) => {
     try {
         const { name, page = 1, limit = 10 } = req.query;
@@ -40,7 +40,7 @@ router.get("/", async (req, res) => {
 });
 
 
-//  GET USER BY ID
+// 2. GET USER BY ID
 router.get("/:id", async (req, res) => {
     try {
         const user = await Users.findById(req.params.id)
@@ -57,7 +57,7 @@ router.get("/:id", async (req, res) => {
 });
 
 
-//  CREATE USER
+// 4. CREATE USER
 router.post("/", async (req, res) => {
     try {
         const user = new Users(req.body);
@@ -70,7 +70,7 @@ router.post("/", async (req, res) => {
 });
 
 
-//  UPDATE USER (FULL UPDATE)
+// 5. UPDATE USER (FULL UPDATE)
 router.put("/:id", async (req, res) => {
     try {
         const updatedUser = await Users.findByIdAndUpdate(
@@ -90,7 +90,7 @@ router.put("/:id", async (req, res) => {
 });
 
 
-//  PARTIAL UPDATE
+// 6. PARTIAL UPDATE
 router.patch("/:id", async (req, res) => {
     try {
         const updatedUser = await Users.findByIdAndUpdate(
@@ -110,7 +110,7 @@ router.patch("/:id", async (req, res) => {
 });
 
 
-//  DELETE USER
+// 7. DELETE USER
 router.delete("/:id", async (req, res) => {
     try {
         const deletedUser = await Users.findByIdAndDelete(req.params.id);
