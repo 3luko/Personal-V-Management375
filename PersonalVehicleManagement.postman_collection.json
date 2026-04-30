@@ -1,0 +1,414 @@
+{
+  "info": {
+    "_postman_id": "ebd849c4-8484-4920-a505-218c15854b4c",
+    "name": "PersonalVehicleManagement",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "54017189",
+    "_collection_link": "https://go.postman.co/collection/54017189-ebd849c4-8484-4920-a505-218c15854b4c?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "CREATE USER",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://dv4b0qzw-3000.use.devtunnels.ms/api/users",
+          "protocol": "https",
+          "host": [
+            "dv4b0qzw-3000",
+            "use",
+            "devtunnels",
+            "ms"
+          ],
+          "path": [
+            "api",
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET USER BY ID",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
+    },
+    {
+      "name": "GET ALL USERS",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "https://dv4b0qzw-3000.use.devtunnels.ms/api/users",
+          "protocol": "https",
+          "host": [
+            "dv4b0qzw-3000",
+            "use",
+            "devtunnels",
+            "ms"
+          ],
+          "path": [
+            "api",
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "UPDATE USER",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"name\": \"Johnson Jackson\",\r\n    \"email\": \"johnson@gmail.com\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://dv4b0qzw-3000.use.devtunnels.ms/api/users/69f35a2e6231c3ba77401a5a",
+          "protocol": "https",
+          "host": [
+            "dv4b0qzw-3000",
+            "use",
+            "devtunnels",
+            "ms"
+          ],
+          "path": [
+            "api",
+            "users",
+            "69f35a2e6231c3ba77401a5a"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "DELETE USER",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"name\": \"Johnson Jackson\",\r\n    \"email\": \"johnson@gmail.com\"\r\n}"
+        },
+        "url": {
+          "raw": "https://dv4b0qzw-3000.use.devtunnels.ms/api/users/69f35a2e6231c3ba77401a5a",
+          "protocol": "https",
+          "host": [
+            "dv4b0qzw-3000",
+            "use",
+            "devtunnels",
+            "ms"
+          ],
+          "path": [
+            "api",
+            "users",
+            "69f35a2e6231c3ba77401a5a"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET ALL RECORDS",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "https://dv4b0qzw-3000.use.devtunnels.ms/api/records",
+          "protocol": "https",
+          "host": [
+            "dv4b0qzw-3000",
+            "use",
+            "devtunnels",
+            "ms"
+          ],
+          "path": [
+            "api",
+            "records"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "CREATE RECORD",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"vehicle\": \"661f9c8a123abc456def7890\",\r\n  \"type\": \"Oil Change\",\r\n  \"cost\": 75,\r\n  \"mileage\": 45000,\r\n  \"notes\": \"Changed oil and filter\"\r\n}"
+        },
+        "url": {
+          "raw": "https://dv4b0qzw-3000.use.devtunnels.ms/api/records",
+          "protocol": "https",
+          "host": [
+            "dv4b0qzw-3000",
+            "use",
+            "devtunnels",
+            "ms"
+          ],
+          "path": [
+            "api",
+            "records"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "UPDATE RECORDS",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"vehicle\": \"69f35a066231c3ba77401a59\",\r\n  \"type\": \"Oil Change\",\r\n  \"cost\": 85,\r\n  \"date\": \"2026-04-30\",\r\n  \"mileage\": 43000,\r\n  \"notes\": \"Oil change + premium synthetic oil\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://dv4b0qzw-3000.use.devtunnels.ms/api/records/69f364994dbfda9a4b5138de",
+          "protocol": "https",
+          "host": [
+            "dv4b0qzw-3000",
+            "use",
+            "devtunnels",
+            "ms"
+          ],
+          "path": [
+            "api",
+            "records",
+            "69f364994dbfda9a4b5138de"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "DELETE RECORD",
+      "request": {
+        "method": "DELETE",
+        "header": []
+      },
+      "response": []
+    },
+    {
+      "name": "GET RECORD BY ID",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
+    },
+    {
+      "name": "GET ALL VEHICLES",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "https://dv4b0qzw-3000.use.devtunnels.ms/api/vehicles",
+          "protocol": "https",
+          "host": [
+            "dv4b0qzw-3000",
+            "use",
+            "devtunnels",
+            "ms"
+          ],
+          "path": [
+            "api",
+            "vehicles"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "CREATE VEHICLES",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"make\": \"BMW\",\r\n  \"model\": \"X5\",\r\n  \"year\": 2021,\r\n  \"vin\": \"WBACR6C57MCF12345\",\r\n  \"owner\": \"661f9c8a123abc456def7890\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://dv4b0qzw-3000.use.devtunnels.ms/api/vehicles",
+          "protocol": "https",
+          "host": [
+            "dv4b0qzw-3000",
+            "use",
+            "devtunnels",
+            "ms"
+          ],
+          "path": [
+            "api",
+            "vehicles"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET VEHICLE BY ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://dv4b0qzw-3000.use.devtunnels.ms/api/vehicles/69f361c44dbfda9a4b5138db",
+          "protocol": "https",
+          "host": [
+            "dv4b0qzw-3000",
+            "use",
+            "devtunnels",
+            "ms"
+          ],
+          "path": [
+            "api",
+            "vehicles",
+            "69f361c44dbfda9a4b5138db"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "UPDATE VEHICLE",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"make\": \"BMW\",\r\n  \"model\": \"X6\",\r\n  \"year\": 2022,\r\n  \"vin\": \"WBACR6C57MCF12345\",\r\n  \"owner\": \"661f9c8a123abc456def7890\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://dv4b0qzw-3000.use.devtunnels.ms/api/vehicles/69f35e6601a45a1fd831cca9",
+          "protocol": "https",
+          "host": [
+            "dv4b0qzw-3000",
+            "use",
+            "devtunnels",
+            "ms"
+          ],
+          "path": [
+            "api",
+            "vehicles",
+            "69f35e6601a45a1fd831cca9"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "DELETE VEHICLE",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"make\": \"BMW\",\r\n  \"model\": \"X5\",\r\n  \"year\": 2021,\r\n  \"vin\": \"WBACR6C57MCF12345\",\r\n  \"owner\": \"661f9c8a123abc456def7890\"\r\n}"
+        },
+        "url": {
+          "raw": "https://dv4b0qzw-3000.use.devtunnels.ms/api/vehicles",
+          "protocol": "https",
+          "host": [
+            "dv4b0qzw-3000",
+            "use",
+            "devtunnels",
+            "ms"
+          ],
+          "path": [
+            "api",
+            "vehicles"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "PARTIAL UPDATE",
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"model\": \"Model Y\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://dv4b0qzw-3000.use.devtunnels.ms/api/vehicles/69f35e7401a45a1fd831ccab",
+          "protocol": "https",
+          "host": [
+            "dv4b0qzw-3000",
+            "use",
+            "devtunnels",
+            "ms"
+          ],
+          "path": [
+            "api",
+            "vehicles",
+            "69f35e7401a45a1fd831ccab"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
