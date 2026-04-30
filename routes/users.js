@@ -3,7 +3,7 @@ import Users from "../models/User.js";
 
 export const router = express.Router();
 
-// Middleware (you already had this)
+// Middleware
 router.use((req, res, next) => {
     console.log(`Task route: ${req.method} ${req.originalUrl}`);
     console.log(`Time: ${new Date().toISOString()}`);
