@@ -1,11 +1,9 @@
 import express from "express";
+import Vehicle from "../models/Vehicle.js";
+import Users from "../models/User.js";
 
 export const router = express.Router();
 
-// Test route
-router.get("/", (req, res) => {
-    res.send("Vehicles route works");
-});
 
 // 1. GET ALL VEHICLES (with filtering + pagination)
 router.get("/", async (req, res) => {
@@ -72,6 +70,23 @@ router.put("/:id", async (req, res) => {
         if (!updatedVehicle) {
             return res.status(404).json({ message: "Vehicle not found" });
         }   
+        res.json(updatedVehicle);
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
+});
+
+// 5.5 PARTIAL UPDATE VEHICLE
+router.patch("/:id", async (req, res) => {
+    try {
+        const updatedVehicle = await Vehicle.findByIdAndUpdate(
+            req.params.id,
+            req.body,
+            { new: true, runValidators: true }
+        );
+        if (!updatedVehicle) {
+            return res.status(404).json({ message: "Vehicle not found" });
+        }
         res.json(updatedVehicle);
     } catch (err) {
         res.status(400).json({ message: err.message });

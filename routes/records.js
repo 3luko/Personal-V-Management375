@@ -1,11 +1,10 @@
 import express from "express";
+import Record from "../models/Record.js";
+import Vehicle from "../models/Vehicle.js";
+import Users from "../models/User.js";
 
 export const router = express.Router();
 
-// Test route
-router.get("/", (req, res) => {
-    res.send("Records route works");
-});
 
 // 1. GET ALL RECORDS (with filtering + pagination)
 router.get("/", async (req, res) => {
@@ -17,10 +16,7 @@ router.get("/", async (req, res) => {
         const records = await Record.find(query)
             .limit(limit * 1)
             .skip((page - 1) * limit)
-            .populate("vehicle", "make model year") // populate vehicle details
-            .populate("type") // populate type of vehicle maintenance
-            .populate("mileage") // populate mileage of vehicle at time of record
-            .populate("date"); // populate date of record
+            .populate("vehicle", "make model year"); // populate vehicle details
         res.json(records);
     } catch (err) {
         res.status(500).json({ message: err.message });
@@ -45,10 +41,7 @@ router.get("/:id", async (req, res) => {
 router.get("/vehicle/:id", async (req, res) => {
     try {
         const records = await Record.find({ vehicle: req.params.id })
-            .populate("vehicle", "make model year")
-            .populate("type")
-            .populate("mileage")
-            .populate("date");
+            .populate("vehicle", "make model year");
         res.json(records);
     } catch (err) {
         res.status(500).json({ message: err.message });
@@ -74,6 +67,23 @@ router.put("/:id", async (req, res) => {
         const record = await Record.findByIdAndUpdate(
             req.params.id,
             { vehicle, date, description, cost },
+            { new: true, runValidators: true }
+        ).populate("vehicle", "make model year");
+        if (!record) {
+            return res.status(404).json({ message: "Record not found" });
+        }
+        res.json(record);
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
+});
+
+// 4.5 PARTIAL UPDATE RECORD
+router.patch("/:id", async (req, res) => {
+    try {
+        const record = await Record.findByIdAndUpdate(
+            req.params.id,
+            req.body,
             { new: true, runValidators: true }
         ).populate("vehicle", "make model year");
         if (!record) {
