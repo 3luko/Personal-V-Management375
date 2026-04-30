@@ -26,6 +26,18 @@ router.get("/", async (req, res) => {
     }
 });
 
+// 1.5 GET ALL VEHICLES FOR ONE OWNER
+router.get("/owner/:ownerId", async (req, res) => {
+    try {
+        const vehicles = await Vehicle.find({ owner: req.params.ownerId })
+            .populate("owner", "name email")
+            .populate("records");
+        res.json(vehicles);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
 // 2. GET VEHICLE BY ID
 router.get("/:id", async (req, res) => {
     try {
