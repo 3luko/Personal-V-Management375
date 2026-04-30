@@ -51,8 +51,16 @@ router.get("/vehicle/:id", async (req, res) => {
 // 3. CREATE RECORD
 router.post("/", async (req, res) => {
     try {
-        const { vehicle, date, description, cost } = req.body;
-        const record = new Record({ vehicle, date, description, cost });
+        const { vehicle, type, cost, date, mileage, notes } = req.body;
+
+        const record = new Record({
+            vehicle,
+            type,
+            cost,
+            date,
+            mileage,
+            notes
+        });
         await record.save();    
         res.status(201).json(record);
     } catch (err) {

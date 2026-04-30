@@ -1,5 +1,6 @@
 import express from "express";
 import Users from "../models/User.js";
+import Vehicle from "../models/Vehicle.js";
 
 export const router = express.Router();
 
@@ -60,10 +61,33 @@ router.get("/:id", async (req, res) => {
 // 4. CREATE USER
 router.post("/", async (req, res) => {
     try {
-        const user = new Users(req.body);
-        const savedUser = await user.save();
+        const { name, email, password, vehicle } = req.body;
 
-        res.status(201).json(savedUser);
+        // 1. Create user
+        const newUser = new Users({ name, email, password });
+        await newUser.save();
+
+        let newVehicle = null;
+
+        // 2. If vehicle exists → create it
+        if (vehicle) {
+            newVehicle = new Vehicle({
+                ...vehicle,
+                owner: newUser._id
+            });
+
+            await newVehicle.save();
+
+            // 3. Link vehicle to user
+            newUser.vehicles.push(newVehicle._id);
+            await newUser.save();
+        }
+
+        res.status(201).json({
+            user: newUser,
+            vehicle: newVehicle
+        });
+
     } catch (err) {
         res.status(400).json({ message: err.message });
     }
