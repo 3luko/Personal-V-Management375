@@ -28,36 +28,75 @@ registerTab.addEventListener('click', () => {
 });
 
 
-    // LOGIN USER
-    loginForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
+// LOGIN USER
+loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-      const email = document.getElementById('loginEmail').value;
-      const password = document.getElementById('loginPassword').value;
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
 
-      try {
-        const response = await fetch('http://localhost:3000/api/users/login', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ email, password })
-        });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-          throw new Error(data.message);
-        }
-
-        message.style.color = 'green';
-        message.textContent = data.message;
-
-      } catch (error) {
-        message.style.color = 'red';
-        message.textContent = error.message;
-      }
+    try {
+    const response = await fetch('http://localhost:3000/api/users/login', {
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, password })
     });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(data.message);
+    }
+
+    message.style.color = 'green';
+    message.textContent = data.message;
+
+    } catch (error) {
+    message.style.color = 'red';
+    message.textContent = error.message;
+    }
+});
+
+//Registration Form
+registerForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const name = document.getElementById('registerName').value;
+    const email = document.getElementById('registerEmail').value;
+    const password = document.getElementById('registerPassword').value;
+
+    try {
+    //POST method for creating a user. 
+    const response = await fetch('http://localhost:3000/api/users', {
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+        name,
+        email,
+        password
+        })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(data.message);
+    }
+
+    message.style.color = 'green';
+    message.textContent = 'Account created successfully!';
+
+    registerForm.reset();
+
+    } catch (error) {
+    message.style.color = 'red';
+    message.textContent = error.message;
+    }
+});
 
 
 
