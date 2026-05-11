@@ -53,6 +53,40 @@ router.get("/:id/vehicles", async (req, res) => {
     }
 });
 
+// 1.6 LOGIN USER
+router.post("/login", async (req, res) => {
+    try {
+        const { email, password } = req.body;
+
+        if (!email || !password) {
+            return res.status(400).json({ message: "Email and password are required" });
+        }
+
+        const user = await Users.findOne({ email: email.toLowerCase() });
+
+        if (!user) {
+            return res.status(401).json({ message: "Invalid email or password" });
+        }
+
+        const isPasswordValid = await user.comparePassword(password);
+
+        if (!isPasswordValid) {
+            return res.status(401).json({ message: "Invalid email or password" });
+        }
+
+        res.json({
+            message: "Login successful",
+            user: {
+                id: user._id,
+                name: user.name,
+                email: user.email
+            }
+        });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
 
 // 2. GET USER BY ID
 router.get("/:id", async (req, res) => {

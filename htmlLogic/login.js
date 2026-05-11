@@ -1,100 +1,83 @@
-const loginTab = document.getElementById('loginTab');
-const registerTab = document.getElementById('registerTab');
+import { apiRequest } from "../public/js/api.js";
+import { isLoggedIn, saveLoggedInUser } from "../public/js/session.js";
 
-const loginForm = document.getElementById('loginForm');
-const registerForm = document.getElementById('registerForm');
+const loginTab = document.getElementById("loginTab");
+const registerTab = document.getElementById("registerTab");
+const loginForm = document.getElementById("loginForm");
+const registerForm = document.getElementById("registerForm");
+const message = document.getElementById("message");
 
-const message = document.getElementById('message');
+if (isLoggedIn()) {
+    window.location.href = "./dashboard.html";
+}
+
+function showMessage(text, type) {
+    message.textContent = text;
+    message.className = `message ${type}`;
+}
 
 // Switch tabs
-loginTab.addEventListener('click', () => {
-    loginForm.classList.remove('hidden');
-    registerForm.classList.add('hidden');
-
-    loginTab.classList.add('active');
-    registerTab.classList.remove('active');
-
-    message.textContent = '';
+loginTab.addEventListener("click", () => {
+    loginForm.classList.remove("hidden");
+    registerForm.classList.add("hidden");
+    loginTab.classList.add("active");
+    registerTab.classList.remove("active");
+    message.textContent = "";
+    message.className = "message";
 });
 
-registerTab.addEventListener('click', () => {
-    registerForm.classList.remove('hidden');
-    loginForm.classList.add('hidden');
-
-    registerTab.classList.add('active');
-    loginTab.classList.remove('active');
-
-    message.textContent = '';
+registerTab.addEventListener("click", () => {
+    registerForm.classList.remove("hidden");
+    loginForm.classList.add("hidden");
+    registerTab.classList.add("active");
+    loginTab.classList.remove("active");
+    message.textContent = "";
+    message.className = "message";
 });
-
 
 // LOGIN USER
-loginForm.addEventListener('submit', async (e) => {
+loginForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const email = document.getElementById('loginEmail').value;
-    const password = document.getElementById('loginPassword').value;
+    const email = document.getElementById("loginEmail").value;
+    const password = document.getElementById("loginPassword").value;
 
     try {
-    const response = await fetch('http://localhost:3000/api/users/login', {
-        method: 'POST',
-        headers: {
-        'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ email, password })
-    });
+        const data = await apiRequest("/users/login", {
+            method: "POST",
+            body: { email, password }
+        });
 
-    const data = await response.json();
+        saveLoggedInUser(data.user);
+        showMessage(data.message, "success");
 
-    if (!response.ok) {
-        throw new Error(data.message);
-    }
-
-    message.style.color = 'green';
-    message.textContent = data.message;
-
+        window.setTimeout(() => {
+            window.location.href = "./dashboard.html";
+        }, 400);
     } catch (error) {
-    message.style.color = 'red';
-    message.textContent = error.message;
+        showMessage(error.message, "error");
     }
 });
 
-//Registration Form
-registerForm.addEventListener('submit', async (e) => {
+// Registration Form
+registerForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const name = document.getElementById('registerName').value;
-    const email = document.getElementById('registerEmail').value;
-    const password = document.getElementById('registerPassword').value;
+    const name = document.getElementById("registerName").value;
+    const email = document.getElementById("registerEmail").value;
+    const password = document.getElementById("registerPassword").value;
 
     try {
-    //POST method for creating a user. 
-    const response = await fetch('http://localhost:3000/api/users', {
-        method: 'POST',
-        headers: {
-        'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-        name,
-        email,
-        password
-        })
-    });
+        await apiRequest("/users", {
+            method: "POST",
+            body: { name, email, password }
+        });
 
-    const data = await response.json();
-
-    if (!response.ok) {
-        throw new Error(data.message);
-    }
-
-    message.style.color = 'green';
-    message.textContent = 'Account created successfully!';
-
-    registerForm.reset();
-
+        showMessage("Account created successfully! Please sign in.", "success");
+        registerForm.reset();
+        loginTab.click();
     } catch (error) {
-    message.style.color = 'red';
-    message.textContent = error.message;
+        showMessage(error.message, "error");
     }
 });
 
