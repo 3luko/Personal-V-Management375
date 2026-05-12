@@ -18,6 +18,32 @@
       <p><strong>Vehicles Linked:</strong> <span id="vehicleCount">Loading...</span></p>
     </section>
 
+    <section class="dashboard-card">
+      <h2>Add Vehicle</h2>
+      <form id="vehicleForm">
+        <input type="text" id="vehicleMake" placeholder="Make" required />
+        <input type="text" id="vehicleModel" placeholder="Model" required />
+        <input type="number" id="vehicleYear" placeholder="Year" required />
+        <input type="text" id="vehicleVin" placeholder="VIN (optional)" />
+        <button type="submit" class="submit-btn">Add Vehicle</button>
+      </form>
+    </section>
+
+    <section class="dashboard-card">
+      <h2>Your Vehicles</h2>
+      <div class="vehicle-filters">
+        <input type="text" id="vehicleSearch" class="vehicle-search" placeholder="Search by make, model, or VIN" />
+        <div class="vehicle-filter-row">
+          <input type="text" id="vehicleMakeFilter" placeholder="Make" />
+          <input type="number" id="vehicleYearFilter" placeholder="Year" />
+          <button type="button" id="clearFiltersButton" class="secondary-btn">Clear</button>
+        </div>
+      </div>
+      <ul id="vehicleList" class="vehicle-list">
+        <li class="empty-state">Loading vehicles...</li>
+      </ul>
+    </section>
+
     <div id="message" class="message"></div>
 
     <button id="logoutButton" class="submit-btn">Logout</button>

@@ -58,7 +58,13 @@ router.get("/:id", async (req, res) => {
 router.post("/", async (req, res) => {
     try {
         const { make, model, year, vin, owner } = req.body;
-        const vehicle = new Vehicle({ make, model, year, vin, owner });
+        const vehicleData = { make, model, year, owner };
+
+        if (vin && vin.trim()) {
+            vehicleData.vin = vin.trim();
+        }
+
+        const vehicle = new Vehicle(vehicleData);
         await vehicle.save();
 
         // Add vehicle to owner's list
@@ -66,6 +72,10 @@ router.post("/", async (req, res) => {
 
         res.status(201).json(vehicle);
     } catch (err) {
+        if (err.code === 11000 && err.keyPattern?.vin) {
+            return res.status(400).json({ message: "VIN must be unique when provided" });
+        }
+
         res.status(400).json({ message: err.message });
     }
 });
