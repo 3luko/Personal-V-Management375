@@ -59,7 +59,7 @@ loginForm.addEventListener("submit", async (e) => {
             body: { email, password }
         });
 
-        saveLoggedInUser(data.user);
+        saveLoggedInUser(data.user, data.token);
         showMessage(data.message, "success");
 
         window.setTimeout(() => {
