@@ -3,6 +3,7 @@
 import express from "express";
 import Vehicle from "../../models/Vehicle.js";
 import Users from "../../models/User.js";
+import { protectRoute } from "../middleware/authentication.js";
 
 export const router = express.Router();
 
@@ -29,7 +30,7 @@ router.get("/", async (req, res) => {
 });
 
 // 1.5 GET ALL VEHICLES FOR ONE OWNER
-router.get("/owner/:ownerId", async (req, res) => {
+router.get("/owner/:ownerId", protectRoute, async (req, res) => {
     try {
         const vehicles = await Vehicle.find({ owner: req.params.ownerId })
             .populate("owner", "name email")
@@ -41,7 +42,7 @@ router.get("/owner/:ownerId", async (req, res) => {
 });
 
 // 2. GET VEHICLE BY ID
-router.get("/:id", async (req, res) => {
+router.get("/:id", protectRoute, async (req, res) => {
     try {
         const vehicle = await Vehicle.findById(req.params.id)
             .populate("owner", "name email") // populate owner details
@@ -57,7 +58,7 @@ router.get("/:id", async (req, res) => {
 
 
 // 4. CREATE VEHICLE
-router.post("/", async (req, res) => {
+router.post("/", protectRoute, async (req, res) => {
     try {
         const { make, model, year, vin, owner } = req.body;
         const vehicleData = { make, model, year, owner };
@@ -83,7 +84,7 @@ router.post("/", async (req, res) => {
 });
 
 // 5. UPDATE VEHICLE (FULL UPDATE)
-router.put("/:id", async (req, res) => {
+router.put("/:id", protectRoute, async (req, res) => {
     try {
         const { make, model, year, vin, owner } = req.body; 
         const updatedVehicle = await Vehicle.findByIdAndUpdate(
@@ -101,7 +102,7 @@ router.put("/:id", async (req, res) => {
 });
 
 // 5.5 PARTIAL UPDATE VEHICLE
-router.patch("/:id", async (req, res) => {
+router.patch("/:id", protectRoute, async (req, res) => {
     try {
         const updatedVehicle = await Vehicle.findByIdAndUpdate(
             req.params.id,
@@ -118,7 +119,7 @@ router.patch("/:id", async (req, res) => {
 });
 
 // 6. DELETE VEHICLE
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", protectRoute, async (req, res) => {
     try {
         const deletedVehicle = await Vehicle.findByIdAndDelete(req.params.id);
         if (!deletedVehicle) {

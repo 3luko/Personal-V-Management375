@@ -3,11 +3,12 @@
 import express from "express";
 import Record from "../../models/Record.js";
 import Vehicle from "../../models/Vehicle.js";
+import { protectRoute } from "../middleware/authentication.js";
 
 export const router = express.Router();
 
 // 1. GET ALL RECORDS (with filtering + pagination)
-router.get("/", async (req, res) => {
+router.get("/", protectRoute, async (req, res) => {
     try {
         const { vehicle, date, page = 1, limit = 10 } = req.query;
         let query = {};
@@ -27,7 +28,7 @@ router.get("/", async (req, res) => {
 });
 
 // 2. GET RECORD BY ID
-router.get("/:id", async (req, res) => {
+router.get("/:id", protectRoute, async (req, res) => {
     try {
         const record = await Record.findById(req.params.id)
             .populate("vehicle", "make model year");    
@@ -41,7 +42,7 @@ router.get("/:id", async (req, res) => {
 });
 
 // 3.  GET ALL RECORDS FOR ONE VEHICLE
-router.get("/vehicle/:id", async (req, res) => {
+router.get("/vehicle/:id", protectRoute, async (req, res) => {
     try {
         const records = await Record.find({ vehicle: req.params.id })
             .populate("vehicle", "make model year")
@@ -55,7 +56,7 @@ router.get("/vehicle/:id", async (req, res) => {
 });
 
 // 4. CREATE RECORD
-router.post("/", async (req, res) => {
+router.post("/", protectRoute, async (req, res) => {
     try {
         const { vehicle, date, description, cost } = req.body;
         const record = new Record({ vehicle, date, description, cost });
@@ -67,7 +68,7 @@ router.post("/", async (req, res) => {
 });
 
 // 5. UPDATE RECORD (FULL UPDATE)
-router.put("/:id", async (req, res) => {
+router.put("/:id", protectRoute, async (req, res) => {
     try {
         const { vehicle, date, description, cost } = req.body;
         const record = await Record.findByIdAndUpdate(
@@ -85,7 +86,7 @@ router.put("/:id", async (req, res) => {
 });
 
 // 6. DELETE RECORD
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", protectRoute, async (req, res) => {
     try {
         const record = await Record.findByIdAndDelete(req.params.id);
         if (!record) {

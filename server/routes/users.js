@@ -3,20 +3,13 @@
 import express from "express";
 import Users from "../../models/User.js";
 import Vehicle from "../../models/Vehicle.js";
+import { taskLog, logRequest } from "../../middleware/middleware.js"; 
+import jwt from "jsonwebtoken";
+import { protectRoute } from "../middleware/authentication.js";
 
 export const router = express.Router();
 
-// Middleware
-router.use((req, res, next) => {
-    console.log(`Task route: ${req.method} ${req.originalUrl}`);
-    console.log(`Time: ${new Date().toISOString()}`);
-    next();
-});
-
-const logRequest = function(req, res, next){
-    console.log(`Requests: ${req.method} for ${req.path}`);
-    next();
-}
+router.use(taskLog);
 router.use(logRequest);
 
 const isPasswordValid = await user.comparePassword(password);
