@@ -1,3 +1,5 @@
+// vehicles.js - Express router for handling CRUD operations on vehicles and their associated maintenance records in the Personal Vehicle Management application
+
 import express from "express";
 import Vehicle from "../../models/Vehicle.js";
 import Users from "../../models/User.js";

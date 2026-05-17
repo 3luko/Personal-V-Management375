@@ -1,3 +1,5 @@
+// login.js - Handles user login and registration logic
+
 import { apiRequest } from "../public/js/api.js";
 import { isLoggedIn, saveLoggedInUser } from "../public/js/session.js";
 

@@ -1,3 +1,5 @@
+// api.js - Utility functions for making API requests to the backend
+
 const API_BASE_URL = "http://localhost:3000/api";
 
 export async function apiRequest(path, options = {}) {
