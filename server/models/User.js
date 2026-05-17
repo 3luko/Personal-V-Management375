@@ -1,3 +1,5 @@
+// user.js - Mongoose schema and model for users in the Personal Vehicle Management application
+
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 

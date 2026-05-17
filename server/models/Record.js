@@ -1,3 +1,5 @@
+// record.js - Mongoose schema and model for maintenance records associated with vehicles in the Personal Vehicle Management application
+
 import mongoose from "mongoose";
 
 const recordSchema = new mongoose.Schema({

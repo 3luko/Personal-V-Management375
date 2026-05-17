@@ -1,3 +1,5 @@
+// vehicle.js - Mongoose schema and model for vehicles in the Personal Vehicle Management application
+
 import mongoose from "mongoose";
 
 const vehicleSchema = new mongoose.Schema({
