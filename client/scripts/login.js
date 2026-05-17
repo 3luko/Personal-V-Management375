@@ -1,7 +1,7 @@
 // login.js - Handles user login and registration logic
 
-import { apiRequest } from "../public/js/api.js";
-import { isLoggedIn, saveLoggedInUser } from "../public/js/session.js";
+import { apiRequest } from "./api.js";
+import { isLoggedIn, saveLoggedInUser } from "./session.js";
 
 const loginTab = document.getElementById("loginTab");
 const registerTab = document.getElementById("registerTab");
@@ -9,13 +9,22 @@ const loginForm = document.getElementById("loginForm");
 const registerForm = document.getElementById("registerForm");
 const message = document.getElementById("message");
 
-if (isLoggedIn()) {
-    window.location.href = "./dashboard.html";
+try {
+  if (isLoggedIn()) {
+    window.location.href = "../pages/dashboard.html";
+  }
+} catch (error) {
+  console.error("Error occurred while checking login status:", error);
+  localStorage.clear();
 }
 
 function showMessage(text, type) {
-    message.textContent = text;
-    message.className = `message ${type}`;
+    try {
+        message.textContent = text;
+        message.className = `message ${type}`;
+    } catch (error) {
+        console.error("Error occurred while showing message:", error);
+    }
 }
 
 // Switch tabs
@@ -54,7 +63,7 @@ loginForm.addEventListener("submit", async (e) => {
         showMessage(data.message, "success");
 
         window.setTimeout(() => {
-            window.location.href = "./dashboard.html";
+            window.location.href = "../pages/dashboard.html";
         }, 400);
     } catch (error) {
         showMessage(error.message, "error");

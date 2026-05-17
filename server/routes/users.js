@@ -3,8 +3,8 @@
 import express from "express";
 import Users from "../../models/User.js";
 import Vehicle from "../../models/Vehicle.js";
-import { taskLog, logRequest } from "../../middleware/middleware.js"; 
-import jwt from "jsonwebtoken";
+
+import { taskLog, logRequest } from "../../middleware/logging.js"; 
 import { protectRoute } from "../middleware/authentication.js";
 
 export const router = express.Router();
@@ -56,7 +56,7 @@ router.get("/", async (req, res) => {
 });
 
 // 1.5 GET ALL VEHICLES FOR ONE USER
-router.get("/:id/vehicles", async (req, res) => {
+router.get("/:id/vehicles",protectRoute, async (req, res) => {
     try {
         const vehicles = await Vehicle.find({ owner: req.params.id })
             .populate("owner", "name email")
@@ -104,7 +104,7 @@ router.post("/login", async (req, res) => {
 
 
 // 2. GET USER BY ID
-router.get("/:id", async (req, res) => {
+router.get("/:id", protectRoute, async (req, res) => {
     try {
         const user = await Users.findById(req.params.id)
             .populate("vehicles"); // relationship
@@ -157,7 +157,7 @@ router.post("/", async (req, res) => {
 
 
 // 5. UPDATE USER (FULL UPDATE)
-router.put("/:id", async (req, res) => {
+router.put("/:id", protectRoute, async (req, res) => {
     try {
         const updatedUser = await Users.findByIdAndUpdate(
             req.params.id,
@@ -177,7 +177,7 @@ router.put("/:id", async (req, res) => {
 
 
 // 6. PARTIAL UPDATE
-router.patch("/:id", async (req, res) => {
+router.patch("/:id", protectRoute, async (req, res) => {
     try {
         const updatedUser = await Users.findByIdAndUpdate(
             req.params.id,
@@ -197,7 +197,7 @@ router.patch("/:id", async (req, res) => {
 
 
 // 7. DELETE USER
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", protectRoute, async (req, res) => {
     try {
         const deletedUser = await Users.findByIdAndDelete(req.params.id);
 

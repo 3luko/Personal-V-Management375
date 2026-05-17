@@ -18,46 +18,66 @@ const logoutButton = document.getElementById("logoutButton");
 let currentUser = null;
 let allVehicles = [];
 
-if (!isLoggedIn()) {
-  window.location.href = "./login.html";
+try {
+  if (!isLoggedIn()) {
+    window.location.href = "../pages/login.html";
+  }
+} catch (error) {
+  console.error("Error occurred while checking login status:", error);
 }
 
 logoutButton.addEventListener("click", () => {
-  clearLoggedInUser();
-  window.location.href = "./login.html";
+  try {
+    clearLoggedInUser();
+    window.location.href = "../pages/login.html";
+  } catch (error) {
+    console.error("Error occurred while clearing logged-in user:", error);
+  }
 });
 
 function showMessage(text, type) {
-  message.textContent = text;
-  message.className = `message ${type}`;
+  try {
+    message.textContent = text;
+    message.className = `message ${type}`;
+  } catch (error) {
+    console.error("Error occurred while showing message:", error);
+  }
 }
 
 function renderVehicles(vehicles) {
   vehicleList.innerHTML = "";
 
   if (!vehicles.length) {
-    const emptyItem = document.createElement("li");
-    emptyItem.className = "empty-state";
-    emptyItem.textContent = allVehicles.length
-      ? "No vehicles match the current filters."
-      : "No vehicles added yet.";
-    vehicleList.appendChild(emptyItem);
-    return;
+    try {
+      const emptyItem = document.createElement("li");
+      emptyItem.className = "empty-state";
+      emptyItem.textContent = allVehicles.length
+        ? "No vehicles match the current filters."
+        : "No vehicles added yet.";
+      vehicleList.appendChild(emptyItem);
+      return;
+    } catch (error) {
+      console.error("Error occurred while rendering empty state:", error);
+    }
   }
 
   vehicles.forEach((vehicle) => {
-    const listItem = document.createElement("li");
-    listItem.className = "vehicle-item";
-    listItem.innerHTML = `
-      <div class="vehicle-item-header">
-        <div>
-          <span class="vehicle-title">${vehicle.year} ${vehicle.make} ${vehicle.model}</span>
-          <span class="vehicle-meta">VIN: ${vehicle.vin || "Not provided"}</span>
+    try {
+      const listItem = document.createElement("li");
+      listItem.className = "vehicle-item";
+      listItem.innerHTML = `
+        <div class="vehicle-item-header">
+          <div>
+            <span class="vehicle-title">${vehicle.year} ${vehicle.make} ${vehicle.model}</span>
+            <span class="vehicle-meta">VIN: ${vehicle.vin || "Not provided"}</span>
+          </div>
+          <button class="delete-btn" data-id="${vehicle._id}">Delete</button>
         </div>
-        <button class="delete-btn" data-id="${vehicle._id}">Delete</button>
-      </div>
-    `;
-    vehicleList.appendChild(listItem);
+      `;
+      vehicleList.appendChild(listItem);
+    } catch (error) {
+      console.error("Error occurred while rendering a vehicle item:", error);
+    }
   });
 }
 
@@ -67,16 +87,21 @@ function applyVehicleFilters() {
   const yearValue = vehicleYearFilter.value.trim();
 
   const filteredVehicles = allVehicles.filter((vehicle) => {
-    const matchesSearch =
-      !searchValue ||
-      vehicle.make.toLowerCase().includes(searchValue) ||
-      vehicle.model.toLowerCase().includes(searchValue) ||
-      (vehicle.vin || "").toLowerCase().includes(searchValue);
+    try {
+      const matchesSearch =
+        !searchValue ||
+        vehicle.make.toLowerCase().includes(searchValue) ||
+        vehicle.model.toLowerCase().includes(searchValue) ||
+        (vehicle.vin || "").toLowerCase().includes(searchValue);
 
-    const matchesMake = !makeValue || vehicle.make.toLowerCase().includes(makeValue);
-    const matchesYear = !yearValue || String(vehicle.year) === yearValue;
+      const matchesMake = !makeValue || vehicle.make.toLowerCase().includes(makeValue);
+      const matchesYear = !yearValue || String(vehicle.year) === yearValue;
 
-    return matchesSearch && matchesMake && matchesYear;
+      return matchesSearch && matchesMake && matchesYear;
+    } catch (error) {
+      console.error("Error occurred while applying filters to a vehicle:", error);
+      return false;
+    }
   });
 
   renderVehicles(filteredVehicles);
@@ -86,27 +111,32 @@ async function loadVehicles() {
   if (!currentUser) {
     return;
   }
-
+  try {
   allVehicles = await apiRequest(`/users/${currentUser.id}/vehicles`);
   vehicleCount.textContent = allVehicles.length;
   applyVehicleFilters();
+  } catch (error) {
+    console.error("Error loading vehicles:", error);
+    throw new Error("Failed to load vehicles. Please try again later.");
+  }
 }
 
 async function loadDashboard() {
-  currentUser = getLoggedInUser();
-
-  if (!currentUser) {
-    window.location.href = "./login.html";
-    return;
-  }
-
-  userName.textContent = currentUser.name;
-  userEmail.textContent = currentUser.email;
-
   try {
+    currentUser = getLoggedInUser();
+
+    if (!currentUser) {
+      window.location.href = "../pages/login.html";
+      return;
+    }
+
+    userName.textContent = currentUser.name;
+    userEmail.textContent = currentUser.email;
+  
     await loadVehicles();
     showMessage("Login session loaded successfully.", "success");
   } catch (error) {
+    console.error("Error during dashboard load:", error);
     vehicleCount.textContent = "0";
     renderVehicles([]);
     showMessage(error.message, "error");
@@ -116,27 +146,26 @@ async function loadDashboard() {
 vehicleForm.addEventListener("submit", async (event) => {
   event.preventDefault();
 
-  if (!currentUser) {
-    window.location.href = "./login.html";
-    return;
-  }
-
-  const make = document.getElementById("vehicleMake").value.trim();
-  const model = document.getElementById("vehicleModel").value.trim();
-  const year = Number(document.getElementById("vehicleYear").value);
-  const vin = document.getElementById("vehicleVin").value.trim();
-  const vehiclePayload = {
-    make,
-    model,
-    year,
-    owner: currentUser.id
-  };
-
-  if (vin) {
-    vehiclePayload.vin = vin;
-  }
-
   try {
+    if (!currentUser) {
+      window.location.href = "../pages/login.html";
+      return;
+    }
+
+    const make = document.getElementById("vehicleMake").value.trim();
+    const model = document.getElementById("vehicleModel").value.trim();
+    const year = Number(document.getElementById("vehicleYear").value);
+    const vin = document.getElementById("vehicleVin").value.trim();
+    const vehiclePayload = {
+      make,
+      model,
+      year,
+      owner: currentUser.id
+    };
+
+    if (vin) {
+      vehiclePayload.vin = vin;
+    }
     await apiRequest("/vehicles", {
       method: "POST",
       body: vehiclePayload

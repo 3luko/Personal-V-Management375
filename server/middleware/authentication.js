@@ -1,8 +1,7 @@
-// middleware.js - Express middleware for logging requests and handling errors in the Personal Vehicle Management application
+// authentication.js - Middleware to protect routes and ensure user is authenticated
 
 import jwt from "jsonwebtoken";
 import Users from "../models/User.js";
-import express from "express";
 
 export const protectRoute = async (req, res, next) => {
     let token;
@@ -22,17 +21,3 @@ export const protectRoute = async (req, res, next) => {
     }
 
 };
-
-// export const router = express.Router();
-
-// router.use((req, res, next) => {
-//     console.log(`Task route: ${req.method} ${req.originalUrl}`);
-//     console.log(`Time: ${new Date().toISOString()}`);
-//     next();
-// });
-
-// const logRequest = function(req, res, next){
-//     console.log(`Requests: ${req.method} for ${req.path}`);
-//     next();
-// }
-// router.use(logRequest);
