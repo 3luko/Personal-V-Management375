@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import Vehicle from "../models/Vehicle.js";
 
-dotenv.config();
+dotenv.config({path: "../.env" });
 
 async function ensureVehicleIndexes() {
   try {

@@ -1,37 +1,16 @@
 // users.js - Express router for handling CRUD operations on users and their associated vehicles in the Personal Vehicle Management application
 
 import express from "express";
-import Users from "../../models/User.js";
-import Vehicle from "../../models/Vehicle.js";
-
-import { taskLog, logRequest } from "../../middleware/logging.js"; 
+import Users from "../models/User.js";
+import Vehicle from "../models/Vehicle.js";
+import jwt from "jsonwebtoken";
+import { taskLog, logRequest } from "../middleware/logging.js"; 
 import { protectRoute } from "../middleware/authentication.js";
 
 export const router = express.Router();
 
 router.use(taskLog);
 router.use(logRequest);
-
-const isPasswordValid = await user.comparePassword(password);
-if (!isPasswordValid) {
-    return res.status(401).json({ message: "Invalid email or password" });
-}
-
-const token = jwt.sign(
-    { id: user._id }, 
-    process.env.JWT_SECRET || "default_secret", 
-    { expiresIn: "24h" }
-);
-res.json({
-    message: "Login successful",
-    user: {
-        id: user._id,
-        name: user.name,
-        email: user.email
-    },
-    token: token
-});
-
 
 // 1. GET ALL USERS (with filtering + pagination)
 router.get("/", async (req, res) => {
@@ -84,19 +63,25 @@ router.post("/login", async (req, res) => {
         }
 
         const isPasswordValid = await user.comparePassword(password);
-
         if (!isPasswordValid) {
             return res.status(401).json({ message: "Invalid email or password" });
         }
 
+        const token = jwt.sign(
+            { id: user._id }, 
+            process.env.JWT_SECRET || "default_secret", 
+            { expiresIn: "24h" }
+        );
         res.json({
             message: "Login successful",
             user: {
                 id: user._id,
                 name: user.name,
                 email: user.email
-            }
+            },
+            token: token
         });
+
     } catch (err) {
         res.status(500).json({ message: err.message });
     }

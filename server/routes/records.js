@@ -1,8 +1,8 @@
 // records.js - Express router for handling CRUD operations on maintenance records associated with vehicles in the Personal Vehicle Management application
 
 import express from "express";
-import Record from "../../models/Record.js";
-import Vehicle from "../../models/Vehicle.js";
+import Record from "../models/Record.js";
+import Vehicle from "../models/Vehicle.js";
 import { protectRoute } from "../middleware/authentication.js";
 
 export const router = express.Router();
