@@ -19,6 +19,26 @@ const logRequest = function(req, res, next){
 }
 router.use(logRequest);
 
+const isPasswordValid = await user.comparePassword(password);
+if (!isPasswordValid) {
+    return res.status(401).json({ message: "Invalid email or password" });
+}
+
+const token = jwt.sign(
+    { id: user._id }, 
+    process.env.JWT_SECRET || "default_secret", 
+    { expiresIn: "24h" }
+);
+res.json({
+    message: "Login successful",
+    user: {
+        id: user._id,
+        name: user.name,
+        email: user.email
+    },
+    token: token
+});
+
 
 // 1. GET ALL USERS (with filtering + pagination)
 router.get("/", async (req, res) => {
