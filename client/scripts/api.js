@@ -1,4 +1,5 @@
-// api.js - Utility functions for making API requests to the backend
+// client/scripts/api.js
+// Utility functions for making API requests to the backend
 import { getAuthToken } from "./session.js";
 const API_BASE_URL = "http://localhost:3000/api";
 

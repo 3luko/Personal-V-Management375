@@ -1,4 +1,5 @@
-// user.js - Mongoose schema and model for users in the Personal Vehicle Management application
+// server/models/user.js
+// Mongoose schema and model for users in the Personal Vehicle Management application
 
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
@@ -32,11 +33,16 @@ const userSchema = new mongoose.Schema({
 );
 
 // Pre-save middleware: hash password before saving
-userSchema.pre("save", async function () {
+userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return;
 
-  const salt = await bcrypt.genSalt(SALT_WORK_FACTOR);
-  this.password = await bcrypt.hash(this.password, salt);
+  try {
+    const salt = await bcrypt.genSalt(SALT_WORK_FACTOR);
+    this.password = await bcrypt.hash(this.password, salt);
+    next();
+  } catch (err) {
+    return next(err);
+  }
 });
 
 // Method to compare passwords during login

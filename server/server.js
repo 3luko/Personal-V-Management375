@@ -1,3 +1,6 @@
+// server/server.js
+// Main server file for the Personal Vehicle Management application, setting up Express, connecting to MongoDB, and defining routes
+
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
@@ -19,7 +22,10 @@ const PORT = process.env.PORT || 3000;
 // Middleware
 app.use(express.json());
 app.use(cors());
-app.use(express.static(__dirname));
+app.use(express.static(path.join(__dirname, "../client")));
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "../client/pages/login.html"));
+});
 
 // Routes
 app.use("/api/users", userRoutes);

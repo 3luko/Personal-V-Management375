@@ -1,4 +1,5 @@
-// dashboard.js - Handles the main dashboard logic for displaying and managing vehicles
+// client/scripts/dashboard.js
+// Handles the main dashboard logic for displaying and managing vehicles
 
 import { apiRequest } from "./api.js";
 import { clearLoggedInUser, getLoggedInUser, isLoggedIn } from "./session.js";

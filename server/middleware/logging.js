@@ -1,3 +1,4 @@
+// server/middleware/logging.js
 // Middleware to log task-related routes
 export const taskLog = (req, res, next) => {
     console.log(`Task route: ${req.method} ${req.originalUrl}`);

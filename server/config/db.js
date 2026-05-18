@@ -1,4 +1,5 @@
-// db.js - MongoDB connection and index management for the Personal Vehicle Management application
+// server/config/db.js
+// MongoDB connection and index management for the Personal Vehicle Management application
 
 import mongoose from "mongoose";
 import dotenv from "dotenv";

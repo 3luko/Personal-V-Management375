@@ -1,4 +1,5 @@
-// records.js - Express router for handling CRUD operations on maintenance records associated with vehicles in the Personal Vehicle Management application
+// server/routes/records.js
+// Express router for handling CRUD operations on maintenance records associated with vehicles in the Personal Vehicle Management application
 
 import express from "express";
 import Record from "../models/Record.js";
@@ -45,10 +46,7 @@ router.get("/:id", protectRoute, async (req, res) => {
 router.get("/vehicle/:id", protectRoute, async (req, res) => {
     try {
         const records = await Record.find({ vehicle: req.params.id })
-            .populate("vehicle", "make model year")
-            .populate("type")
-            .populate("mileage")
-            .populate("date");
+            .populate("vehicle", "make model year");
         res.json(records);
     } catch (err) {
         res.status(500).json({ message: err.message });
@@ -58,8 +56,8 @@ router.get("/vehicle/:id", protectRoute, async (req, res) => {
 // 4. CREATE RECORD
 router.post("/", protectRoute, async (req, res) => {
     try {
-        const { vehicle, date, description, cost } = req.body;
-        const record = new Record({ vehicle, date, description, cost });
+        const { vehicle, date, type, mileage, notes, cost } = req.body;
+        const record = new Record({ vehicle, date, type, mileage, notes, cost });
         await record.save();    
         res.status(201).json(record);
     } catch (err) {
@@ -70,10 +68,10 @@ router.post("/", protectRoute, async (req, res) => {
 // 5. UPDATE RECORD (FULL UPDATE)
 router.put("/:id", protectRoute, async (req, res) => {
     try {
-        const { vehicle, date, description, cost } = req.body;
+        const { vehicle, date, type, mileage, notes, cost } = req.body;
         const record = await Record.findByIdAndUpdate(
             req.params.id,
-            { vehicle, date, description, cost },
+            { vehicle, date, type, mileage, notes, cost },
             { new: true, runValidators: true }
         ).populate("vehicle", "make model year");
         if (!record) {

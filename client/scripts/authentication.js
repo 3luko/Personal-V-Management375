@@ -1,4 +1,5 @@
-// session.js - Manages user session state using localStorage
+// client/scripts/session.js
+// Manages user session state using localStorage
 
 const USER_STORAGE_KEY = "pvmLoggedInUser";
 const TOKEN_STORAGE_KEY = "pvmAuthToken";
